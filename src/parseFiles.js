@@ -11,6 +11,7 @@ jobs.process('file_parser', 1, function (job, done) {
 });
 
 function parseFile(fileName) {
+  console.log('is parsing fileName: ', fileName);
   var parser = parse({comment: '#', delimiter: '\t'});
   var input = fs.createReadStream(fileName);
   input.pipe(parser);
