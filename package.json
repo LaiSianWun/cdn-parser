@@ -1,0 +1,17 @@
+{
+  "name": "log-parse",
+  "version": "1.0.0",
+  "description": "parse cdn logs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.2.25",
+    "csv-parse": "^1.0.1",
+    "kue": "^0.10.4",
+    "redis": "^2.4.2"
+  }
+}
