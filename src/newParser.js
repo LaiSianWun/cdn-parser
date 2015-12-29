@@ -11,14 +11,20 @@ keyPop();
 
 function keyPop() {
   client.llen('keylist', function (err, response) {
-    if (response > 0) {
-      remaining = response;
-      console.log('remaining: ', remaining);
-      client.rpop('keylist', function (err, response) {
-        if (!err) {
-          getFile(response);
-        }
-      });
+    if (!err) {
+      if (response > 0) {
+        remaining = response;
+        console.log('remaining: ', remaining);
+        client.rpop('keylist', function (err, response) {
+          if (!err) {
+            getFile(response);
+          } else {
+            console.log('rpop err: ', err);
+          }
+        });
+      }
+    } else {
+      console.log('llen err: ', err);
     }
   });
 }
@@ -59,7 +65,7 @@ function getFile(fileKey) {
       }
     });
   } else {
-    return done(new Error('invalid fileKey: ', fileKey));
+    console.log('invalid fileKey: ', fileKey);
   }
 }
 

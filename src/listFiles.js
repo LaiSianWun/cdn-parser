@@ -2,7 +2,7 @@ var AWS = require('aws-sdk'), s3 = new AWS.S3();
 var redis = require("redis"),
     client = redis.createClient();
 
-var marker = '';
+var marker = 'cf-logs/E298J7GNJEYIN1.2015-12-22-11.85bc1e7c.gz';
 var nextMarker;
 listFileKeys(marker);
 function listFileKeys(marker) {
