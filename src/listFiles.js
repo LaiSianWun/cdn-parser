@@ -1,26 +1,27 @@
-var AWS = require('aws-sdk'), s3 = new AWS.S3();
-var redis = require("redis"),
-    client = redis.createClient();
+import AWS from 'aws-sdk';
+import redis from "redis";
+let client = redis.createClient();
+let s3 = new AWS.S3();
 
-var marker = 'cf-logs/E298J7GNJEYIN1.2015-12-22-11.85bc1e7c.gz';
-var nextMarker;
+let marker = 'cf-logs/E298J7GNJEYIN1.2016-01-11-04.9e0906c3.gz';
+let nextMarker;
 listFileKeys(marker);
 function listFileKeys(marker) {
-  var params = {
+  let params = {
     Bucket: 'resizer-logs', /* required */
-    Delimiter: 'E298J7GNJEYIN1.2015-12',
+    Delimiter: 'E298J7GNJEYIN1.2016-01',
     EncodingType: 'url',
     Marker: marker,
-    Prefix: 'cf-logs/E298J7GNJEYIN1.2015-12'
+    Prefix: 'cf-logs/E298J7GNJEYIN1.2016-01'
   };
-  s3.listObjects(params, function (err, data) {
+  s3.listObjects(params, (err, data) => {
     if (!err) {
-      data.Contents.forEach(function (content) {
+      data.Contents.forEach((content) => {
         client.lpush('keylist', [content.Key]);
       });
       if (data.IsTruncated) {
-        console.log('nextMarker: ', nextMarker);
         nextMarker = data.NextMarker;
+        console.log('nextMarker: ', nextMarker);
         listFileKeys(nextMarker);
       } else {
         console.log('listObjects completed, start downloading');
